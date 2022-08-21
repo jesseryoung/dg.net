@@ -40,7 +40,35 @@ public class PlayerDeathHandler : IPluginEventHandler<PlayerDeathEventMessage>
             if (totalDrinks > 0)
             {
                 drinkMessages.Add($"Total: {totalDrinks}");
-                await this.communicator.PlayerDrinks(message.userid_client_id.Value, message.userid_steam_id, drinkMessages.ToArray());
+                await this.communicator.TellPlayer(
+                    message.userid_client_id.Value, 
+                    message.userid_steam_id, 
+                    playDrinkSound: true,
+                    showInPanel: true,
+                    messages: drinkMessages.ToArray()
+                );
+
+                if (message.attacker_client_id.HasValue 
+                    && message.attacker_steam_id != null
+                    && message.attacker_name.IsPlayerDrinking())
+                {
+                    await this.communicator.TellPlayer(
+                        message.attacker_client_id.Value,
+                        message.attacker_steam_id,
+                        messages: $"You made {message.userid_name} drink {totalDrinks}"
+                    );
+                }
+
+                if (message.assister_client_id.HasValue 
+                    && message.assister_steam_id != null
+                    && message.assister_name.IsPlayerDrinking())
+                {
+                    await this.communicator.TellPlayer(
+                        message.assister_client_id.Value,
+                        message.assister_steam_id,
+                        messages: $"You made {message.userid_name} drink {totalDrinks}"
+                    );
+                }
             }
         }
     }

@@ -13,7 +13,8 @@ public class PluginCommunicator
         this.consoleLogPath = options.Value.InputPath;
     }
 
-    public async ValueTask PlayerDrinks(int clientId, string steamId, string[] messages)
+
+    public async ValueTask TellPlayer(int clientId, string steamId, bool playDrinkSound = false, bool showInPanel = false, params string[] messages)
     {
         using var file = new FileStream(this.consoleLogPath, FileMode.Open, FileAccess.Write, FileShare.Delete | FileShare.ReadWrite);
         using var sw = new StreamWriter(file);
@@ -21,10 +22,11 @@ public class PluginCommunicator
         {
             client_id = clientId,
             steam_id = steamId,
-            messages = messages
+            messages = messages,
+            play_drink_sound = playDrinkSound,
+            show_in_panel = showInPanel
         };
         
-        await sw.WriteLineAsync($"player_drinks {JsonSerializer.Serialize(message)}");
-
+        await sw.WriteLineAsync($"dg_tell_player {JsonSerializer.Serialize(message)}");
     }
 }
