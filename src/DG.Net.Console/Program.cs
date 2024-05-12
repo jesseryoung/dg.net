@@ -62,6 +62,8 @@ class Daemon : BackgroundService
                     this.logger.LogError(e, "Failure while handling message");
                 }
             }
+
+            await Task.Delay(100);
         }
     }
 }
