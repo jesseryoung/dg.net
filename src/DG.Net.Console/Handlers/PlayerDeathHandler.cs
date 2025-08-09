@@ -237,7 +237,7 @@ public class SpecialWeaponDrinkingRule : IGameRule
         { "lava_axe", 2 },
         { "lava_bat", 2 },
         { "mailbox", 2 },
-        { "market_gardner", 3 },
+        { "market_gardener", 3 },
         { "nessieclub", 5},
         { "nonnonviolent_protest", 3 },
         { "paintrain", 2 },

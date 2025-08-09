@@ -50,9 +50,9 @@ class Daemon : BackgroundService
         {
             var output = await sr.ReadLineAsync();
             
-            if (output is not null && output.StartsWith(messageHeader))
+            if (output is not null && output.StartsWith(messageHeader)) // You should test this change!
             {
-                var rawMessage = output.Split("drinkinggame_output: ")[1];
+                var rawMessage = output.Split(messageHeader)[1];
                 try
                 {
                     await this.eventDispatcher.HandleMessage(rawMessage);
